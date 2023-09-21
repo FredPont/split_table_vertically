@@ -1,6 +1,6 @@
 # Split table vertically
 
-split_table_vertically split tables by rows into n sub-tables
+split_table_vertically split tables/DataFrames by rows into n sub-tables
 
 - Tables must be in text format such as txt, csv, tsv...
 - Keep the header for each sub-table
