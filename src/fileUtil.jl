@@ -14,32 +14,25 @@
 #  Written by Frederic PONT.
 #  (c) Frederic Pont 2023
 
-# usage : julia main.jl number_of_tables
-# julia main.jl 4 # split the tables in 4 parts
-
-using DelimitedFiles
-using Printf
-using Dates
-
-include("src/title.jl")
-include("src/program_arg.jl")
-include("src/split.jl")
-include("src/fileUtil.jl")
-
-function main()
-    T0 = time()
-    # read all files in data
-    files = readdir("data/")
-    printstyled("Files ", files, "\n"; color = :red)
-
-    for table in files
-        tableNB = readArg() # number of table to produce
-        println()
-        println(table, " is analysed...")
-        splitTable(table, tableNB)
-    end
-    println("Elapsed time : ", time() - T0, " sec")
+#  prefix a number with zeros
+function prefixNB(tableNumber)
+    return @sprintf("%03d", tableNumber)
 end
 
-title()
-main()
+# get the number of lines of file
+function count_lines(file)
+    l = countlines("data/$file")
+    printstyled(l, " lines in ", file, "\n"; color = :blue)
+    return l
+end
+
+# nb of lines per table
+function linePerTable(total_lines, tableNB)
+    return div((total_lines - 1), tableNB)    # -1 for the header missing in all tables except first one
+end
+
+# remove file extension
+function remExt(str)
+    file_name, _ = splitext(str)
+    return file_name
+end
